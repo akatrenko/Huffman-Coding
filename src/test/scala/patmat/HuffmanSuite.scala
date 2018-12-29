@@ -1,11 +1,10 @@
 package patmat
 
 import org.scalatest.FunSuite
-
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-
 import patmat.Huffman._
+import patmat.Main.sampleTree
 
 @RunWith(classOf[JUnitRunner])
 class HuffmanSuite extends FunSuite {
@@ -48,6 +47,18 @@ class HuffmanSuite extends FunSuite {
   test("decode and encode a very short text should be identity") {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
+    }
+  }
+
+  test("quick encode should be correctly") {
+    new TestTrees {
+      val sampleTree: CodeTree = makeCodeTree(
+        makeCodeTree(Leaf('x', 1), Leaf('e', 1)),
+        Leaf('t', 2)
+      )
+      val quickEncodeRes: List[Bit] = quickEncode(sampleTree)("xexe".toList)
+
+      assert(quickEncodeRes === List(0, 0, 0, 1, 0, 0, 0, 1))
     }
   }
 
